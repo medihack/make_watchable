@@ -1,0 +1,78 @@
+= MakeWatchable
+
+MakeWatchable is an extension for building a user-centric watching system for Rails 3 applications.
+It currently supports ActiveRecord models.
+
+== Installation
+
+add MakeWatchable to your Gemfile
+
+  gem 'make_watchable'
+
+afterwards execute
+
+  bundle install
+
+generate the required migration file
+
+  rails generate make_watchable
+
+migrate the database
+
+  rake db:migrate
+
+== Usage
+
+  # Specify a model that can be watched.
+  class Repository < ActiveRecord::Base
+    make_watchable
+  end
+
+  # Specify a model that can watch a watchable.
+  class User < ActiveRecord::Base
+    make_watcher
+  end
+
+  # The user can now watch the watchable.
+  # If the user is already watching the watchable then an AlreadyWatchingError is raised.
+  user.watch!(repository)
+
+  # The method without bang(!) does not raise the AlreadyWatchingError, but just return
+  # false when the watcher tries to watch an already watching watchable.
+  user.watch(repository)
+
+  # The user may unwatch a watched watchable.
+  # If the watch was never watching the watchable then an NotWatchingError is raised.
+  user.unwatch!(repository)
+
+  # The method without bang(!) does not raise the NotFlaggedError, but just returns false
+  # if the watcher is not watching the watchable.
+  user.unwatch(repository)
+
+  # Get all watchings of a watchable.
+  repository.watchings
+
+  # Get the watcher of the watching.
+  watching = repository.watchings.first
+  user = watching.watcher
+
+  # Watchings can also be accessed by its watcher.
+  user.watchings
+
+  # Check if the watcher watches a watchable
+  user.watches?(repository)
+
+  # Check if a watchable is watched by a watcher
+  repository.watched_by?(user)
+
+== Testing
+
+MakeWatchable uses RSpec for testing and has a rake task for executing the provided specs
+
+  rake spec
+
+or simply
+
+  rake
+
+Copyright © 2010-2011 Kai Schlamp (http://www.medihack.org), released under the MIT license
