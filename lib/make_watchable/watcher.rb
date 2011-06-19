@@ -70,6 +70,8 @@ module MakeWatchable
 
     # Check if the watcher watches a watchable.
     def watches?(watchable)
+      check_watchable(watchable)
+
       fetch_watching(watchable) ? true : false
     end
 
