@@ -16,6 +16,12 @@ describe "Make Watchable" do
     @watcher.class.watcher?.should == true
   end
 
+  it "should have watchings" do
+    @watcher.watchings.length.should == 0
+    @watcher.watch!(@watchable)
+    @watcher.watchings.reload.length.should == 1
+  end
+
   describe "watcher" do
     describe "watch" do
       it "should create a watching" do
@@ -63,12 +69,14 @@ describe "Make Watchable" do
       end
     end
 
-    it "should check if watcher is watches the watchable" do
-      @watcher.watches?(@watchable).should == false
-      @watcher.watch!(@watchable)
-      @watcher.watches?(@watchable).should == true
-      @watcher.unwatch!(@watchable)
-      @watcher.watches?(@watchable).should == false
+    describe "watches?" do
+      it "should check if watcher is watches the watchable" do
+        @watcher.watches?(@watchable).should == false
+        @watcher.watch!(@watchable)
+        @watcher.watches?(@watchable).should == true
+        @watcher.unwatch!(@watchable)
+        @watcher.watches?(@watchable).should == false
+      end
     end
   end
 
