@@ -3,6 +3,8 @@
 MakeWatchable is an extension for building a user-centric watching system for Rails 3 applications.
 It currently supports ActiveRecord models.
 
+* This repository is unfortunately no longer maintained. If this library is still relevant and you want to maintain it, I am happy to hand this repository over.
+
 == Installation
 
 add MakeWatchable to your Gemfile
